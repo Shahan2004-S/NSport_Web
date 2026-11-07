@@ -1,0 +1,150 @@
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+
+const IMG = s =>
+    "images/clubs/" + s.toLowerCase().replace(/ /g, "-") + ".jpg";
+
+const sports = [
+    "All", "Athletics", "Badminton", "Chess", "Cricket",
+    "Martial Arts", "Netball", "Rugby", "Swimming",
+    "Table Tennis", "Tennis", "Volleyball"
+];
+
+const clubs = [
+    ["Athletics", "Athletics Club", "athletics.html"],
+    ["Badminton", "Badminton Club", "badminton.html"],
+    ["Chess", "Chess Club", "chess.html"],
+    ["Cricket", "Cricket Club", "cricket.html"],
+    ["Martial Arts", "Martial Arts Club", "martial-arts.html"],
+    ["Netball", "Netball Club", "netball.html"],
+    ["Rugby", "Rugby Club", "rugby.html"],
+    ["Swimming", "Swimming Club", "swimming.html"],
+    ["Table Tennis", "Table Tennis Club", "table-tennis.html"],
+    ["Tennis", "Tennis Club", "tennis.html"],
+    ["Volleyball", "Volleyball Club", "volleyball.html"]
+];
+
+const fixtures = [
+    ["Sat 24 Oct", "Cricket", "Practice match", "Playgrounds"],
+    ["Sun 25 Oct", "Rugby", "Training session", "Playgrounds"],
+    ["Mon 26 Oct", "Netball", "Training session", "Indoor Stadium"],
+    ["Wed 28 Oct", "Badminton", "Open doubles tournament", "Indoor Stadium"],
+    ["Sat 31 Oct", "Swimming", "Inter-faculty relay", "Swimming Pool"]
+];
+
+const results = [
+    ["Computing", "3", "1", "Business"],
+    ["Engineering", "3", "2", "Science"],
+    ["Science", "1", "3", "Computing"]
+];
+
+const stand = [
+    ["Computing", 3, 3, 0, 9],
+    ["Engineering", 3, 2, 1, 6],
+    ["Business", 3, 1, 2, 3],
+    ["Science", 3, 0, 3, 0]
+];
+
+const pend = [
+    ["Nimali Perera", "Netball", "Join request"],
+    ["Kasun Silva", "Rugby", "Join request"],
+    ["Dilshan F.", "Cricket", "Tournament entry"],
+    ["Ayesha R.", "Badminton", "Join request"]
+];
+
+// Student navigation
+const tabs = {
+    student: [
+        ["home", "Home"],
+        ["clubs", "Clubs"],
+        ["fixtures", "Fixtures"],
+        ["results", "Results"],
+        ["booking", "Book"],
+        ["me", "My activity"]
+    ]
+};
+
+$("#nav").innerHTML = tabs.student
+    .map(t => `<a href="#${t[0]}" data-n="${t[0]}">${t[1]}</a>`)
+    .join("");
+
+// Toast message
+function toast(message) {
+    const t = $("#toast");
+
+    t.textContent = message;
+    t.classList.add("on");
+
+    clearTimeout(toast.h);
+
+    toast.h = setTimeout(() => {
+        t.classList.remove("on");
+    }, 2200);
+}
+
+// Filter chips
+function chips(el, cb) {
+    $(el).innerHTML = sports
+        .map((s, i) =>
+            `<button class="chip${i ? "" : " on"}">${s}</button>`
+        )
+        .join("");
+
+    $$(el + " .chip").forEach(button => {
+        button.onclick = () => {
+            $$(el + " .chip").forEach(x =>
+                x.classList.remove("on")
+            );
+
+            button.classList.add("on");
+            cb(button.textContent);
+        };
+    });
+}
+
+// Display clubs
+function drawClubs(filter = "All") {
+    $("#clubs").innerHTML = clubs
+        .filter(c =>
+            (filter === "All" || c[0] === filter) &&
+            c[1].toLowerCase().includes(
+                ($("#q").value || "").toLowerCase()
+            )
+        )
+        .map(c => `
+            <div class="card">
+                <img class="ph"
+                     src="${IMG(c[0])}"
+                     alt="${c[1]} photo placeholder">
+
+                <span class="tag">${c[0]}</span>
+
+                <h3 style="margin-top:10px">${c[1]}</h3>
+
+                <small>
+                    <a href="clubs/${c[2]}">
+                        More about the ${c[1]}
+                    </a>
+                </small>
+
+                <div class="row">
+                    <span></span>
+
+                    <button class="btn sm" data-j="${c[1]}">
+                        Request to join
+                    </button>
+                </div>
+            </div>
+        `)
+        .join("") || "<p>No clubs for this sport yet.</p>";
+
+    $$("[data-j]").forEach(button => {
+        button.onclick = () => {
+            button.textContent = "Request sent";
+            button.disabled = true;
+            button.className = "btn alt sm";
+
+            toast("Join request sent to " + button.dataset.j);
+        };
+    });
+}
