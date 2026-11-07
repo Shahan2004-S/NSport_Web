@@ -259,3 +259,299 @@ $("#q").oninput = () => {
 $("#qf").oninput = () => {
     drawFx($("#fxChips .on").textContent);
 };
+
+const part = [
+    ["Cricket", 82],
+    ["Rugby", 74],
+    ["Badminton", 66],
+    ["Swimming", 58],
+    ["Netball", 49],
+    ["Volleyball", 41]
+];
+
+const bars = (rows, max = 100) =>
+    rows.map(r => `
+        <div style="
+            display:grid;
+            grid-template-columns:100px 1fr 32px;
+            gap:10px;
+            align-items:center;
+        ">
+            <span>${r[0]}</span>
+
+            <div style="
+                background:var(--brs);
+                height:14px;
+                border-radius:2px;
+            ">
+                <div style="
+                    width:${r[1] / max * 100}%;
+                    height:100%;
+                    background:var(--br);
+                    border-radius:2px;
+                "></div>
+            </div>
+
+            <b>${r[1]}</b>
+        </div>
+    `).join("");
+
+const adm = {
+
+    Dashboard: () => `
+        <div class="split">
+            <div>
+                <h3>Monthly participation (demo data)</h3>
+
+                <div style="
+                    display:flex;
+                    align-items:flex-end;
+                    gap:12px;
+                    height:140px;
+                    margin-top:14px;
+                    border-bottom:1px solid var(--ln);
+                ">
+                    ${[
+                        ["Jun", 42],
+                        ["Jul", 55],
+                        ["Aug", 61],
+                        ["Sep", 78],
+                        ["Oct", 90]
+                    ].map(m => `
+                        <div style="flex:1;text-align:center">
+                            <b>${m[1]}</b>
+                            <div style="
+                                height:${m[1]}px;
+                                background:var(--br);
+                                border-radius:2px 2px 0 0;
+                            "></div>
+                        </div>
+                    `).join("")}
+                </div>
+
+                <div style="
+                    display:flex;
+                    gap:12px;
+                    font-size:14px;
+                    color:var(--mut);
+                ">
+                    ${["Jun", "Jul", "Aug", "Sep", "Oct"]
+                        .map(m => `
+                            <span style="flex:1;text-align:center">
+                                ${m}
+                            </span>
+                        `).join("")}
+                </div>
+            </div>
+
+            <div>
+                <h3>Most popular sports (demo data)</h3>
+
+                <div style="
+                    display:grid;
+                    gap:8px;
+                    margin-top:14px;
+                ">
+                    ${bars(part.slice(0, 5))}
+                </div>
+            </div>
+        </div>
+    `,
+
+    Approvals: () => `
+        <div class="wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Club</th>
+                        <th>Type</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    ${pend.map((p, i) => `
+                        <tr id="p${i}">
+                            <td>${p[0]}</td>
+                            <td>${p[1]}</td>
+                            <td>${p[2]}</td>
+
+                            <td>
+                                <button class="btn sm" data-a="${i}">
+                                    Approve
+                                </button>
+
+                                <button class="btn sm no" data-x="${i}">
+                                    Reject
+                                </button>
+                            </td>
+                        </tr>
+                    `).join("")}
+                </tbody>
+            </table>
+        </div>
+    `,
+
+    Clubs: () => `
+        <div class="wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Club</th>
+                        <th>Sport</th>
+                        <th>Source</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    ${clubs.map((c, i) => `
+                        <tr>
+                            <td>${c[1]}</td>
+                            <td>${c[0]}</td>
+
+                            <td>
+                                <a href="${c[2]}" target="_blank" rel="noopener">
+                                    Official page
+                                </a>
+                            </td>
+
+                            <td>
+                                <button class="btn alt sm" data-e="${i}">
+                                    Edit
+                                </button>
+
+                                <button class="btn no sm" data-d="1">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    `).join("")}
+                </tbody>
+            </table>
+        </div>
+
+        <form id="clForm" data-ok="Club saved" style="margin-top:20px">
+            <h3 id="clH">Add a club</h3>
+
+            <label>
+                Club name
+                <input name="n" required>
+            </label>
+
+            <label>
+                Sport
+                <select name="s">
+                    ${sports.slice(1).map(s => `
+                        <option>${s}</option>
+                    `).join("")}
+                </select>
+            </label>
+
+            <button class="btn" type="submit">
+                Save club
+            </button>
+        </form>
+    `,
+
+    Attendance: () => `
+        <form data-ok="Attendance saved">
+            <label>
+                Session
+                <select>
+                    <option>
+                        Cricket Club: practice match, Sat 24 Oct
+                    </option>
+                    <option>
+                        Rugby Club: training session, Sun 25 Oct
+                    </option>
+                </select>
+            </label>
+
+            <div class="wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Present</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        ${[
+                            "Nimali Perera",
+                            "Kasun Silva",
+                            "Dilshan Fernando",
+                            "Ayesha Rahman",
+                            "Tharindu Jayasinghe"
+                        ].map(n => `
+                            <tr>
+                                <td>${n}</td>
+                                <td>
+                                    <input
+                                        type="checkbox"
+                                        checked
+                                        aria-label="${n} present"
+                                        style="width:auto"
+                                    >
+                                </td>
+                            </tr>
+                        `).join("")}
+                    </tbody>
+                </table>
+            </div>
+
+            <button class="btn" type="submit">
+                Save attendance
+            </button>
+        </form>
+    `,
+
+    Schedule: () => `
+        <form data-ok="Session added to the schedule">
+
+            <label>
+                Type
+                <select>
+                    <option>Training session</option>
+                    <option>Match</option>
+                </select>
+            </label>
+
+            <label>
+                Club
+                <select>
+                    ${clubs.map(c => `
+                        <option>${c[1]}</option>
+                    `).join("")}
+                </select>
+            </label>
+
+            <label>
+                Date
+                <input type="date" required>
+            </label>
+
+            <label>
+                Time
+                <input type="time" required>
+            </label>
+
+            <label>
+                Venue
+                <select>
+                    <option>Playgrounds</option>
+                    <option>Indoor Stadium</option>
+                    <option>Swimming Pool</option>
+                    <option>Indoor Gymnasium</option>
+                    <option>Outdoor Gymnasium</option>
+                </select>
+            </label>
+
+            <button class="btn" type="submit">
+                Add to schedule
+            </button>
+        </form>
+    `
+};
