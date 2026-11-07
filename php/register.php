@@ -9,9 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!filter_var($em, FILTER_VALIDATE_EMAIL)) $err[] = 'Enter a valid email address.';
     if (strlen($pw) < 8) $err[] = 'Use at least 8 characters for the password.';
     if (!$err && q('SELECT 1 FROM users WHERE email=?', [$em])->fetch()) $err[] = 'That email is already registered.';
-    if (!$err) {   
-        
-    // the student account is SAVED here: password is hashed, never stored as plain text
+    if (!$err) {
         q('INSERT INTO users(name,email,student_id,password_hash,role) VALUES(?,?,?,?,?)', [$n, $em, $sid, password_hash($pw, PASSWORD_DEFAULT), 'student']);
         flash('Account created. You can log in now.'); go('login.php');
     }
