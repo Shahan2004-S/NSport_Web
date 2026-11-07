@@ -52,7 +52,6 @@ const pend = [
     ["Ayesha R.", "Badminton", "Join request"]
 ];
 
-// Student navigation
 const tabs = {
     student: [
         ["home", "Home"],
@@ -68,7 +67,6 @@ $("#nav").innerHTML = tabs.student
     .map(t => `<a href="#${t[0]}" data-n="${t[0]}">${t[1]}</a>`)
     .join("");
 
-// Toast message
 function toast(message) {
     const t = $("#toast");
 
@@ -82,7 +80,6 @@ function toast(message) {
     }, 2200);
 }
 
-// Filter chips
 function chips(el, cb) {
     $(el).innerHTML = sports
         .map((s, i) =>
@@ -102,7 +99,6 @@ function chips(el, cb) {
     });
 }
 
-// Display clubs
 function drawClubs(filter = "All") {
     $("#clubs").innerHTML = clubs
         .filter(c =>
@@ -148,3 +144,118 @@ function drawClubs(filter = "All") {
         };
     });
 }
+
+function drawFx(filter = "All") {
+    $("#fx").innerHTML = fixtures
+        .filter(x =>
+            (filter === "All" || x[1] === filter) &&
+            (x[1] + " " + x[2]).toLowerCase().includes(
+                ($("#qf").value || "").toLowerCase()
+            )
+        )
+        .map(x => `
+            <tr>
+                <td>${x[0]}</td>
+                <td><span class="tag">${x[1]}</span></td>
+                <td>${x[2]}</td>
+                <td>${x[3]}</td>
+                <td>
+                    <button class="btn sm" data-r="${x[2]}">
+                        Register
+                    </button>
+                </td>
+            </tr>
+        `)
+        .join("") ||
+        '<tr><td colspan="5">No fixtures for this sport yet.</td></tr>';
+
+    $$("[data-r]").forEach(button => {
+        button.onclick = () => {
+            button.textContent = "Registered";
+            button.disabled = true;
+            button.className = "btn alt sm";
+
+            toast("Registered for " + button.dataset.r);
+        };
+    });
+}
+
+$("#homeFx").innerHTML = fixtures
+    .slice(0, 3)
+    .map(x => `
+        <div class="card pill">
+            <span class="tag">${x[1]}</span>
+            <h3 style="margin-top:10px">${x[2]}</h3>
+            <small>${x[0]} · ${x[3]}</small>
+        </div>
+    `)
+    .join("");
+
+$("#res").innerHTML = results
+    .map(r => `
+        <div class="card row" style="margin:0">
+            <b>${r[0]}</b>
+            <span style="font:800 24px Archivo">
+                ${r[1]} – ${r[2]}
+            </span>
+            <b>${r[3]}</b>
+        </div>
+    `)
+    .join("");
+
+$("#st").innerHTML = stand
+    .map(s => `
+        <tr>
+            ${s.map((v, i) =>
+                i === 4
+                    ? `<td><b>${v}</b></td>`
+                    : `<td>${v}</td>`
+            ).join("")}
+        </tr>
+    `)
+    .join("");
+
+$("#mine").innerHTML = `
+    <div class="card">
+        <h3>My clubs</h3>
+        <p>Rugby Club<br>Badminton Club</p>
+    </div>
+
+    <div class="card">
+        <h3>Registrations</h3>
+        <p>
+            Open doubles tournament, Wed 28 Oct<br>
+            <span class="tag">Confirmed</span>
+        </p>
+    </div>
+
+    <div class="card">
+        <h3>Booking requests</h3>
+        <p>
+            Indoor Stadium, Fri 6 pm<br>
+            <span class="tag">Pending</span>
+        </p>
+    </div>
+
+    <div class="card">
+        <h3>Participation</h3>
+        <p style="font:800 32px Archivo;margin:0">
+            18 sessions
+        </p>
+        <small>attended this semester</small>
+    </div>
+`;
+
+chips("#clubChips", drawClubs);
+chips("#fxChips", drawFx);
+
+drawClubs();
+drawFx();
+
+$("#q").oninput = () => {
+    drawClubs($("#clubChips .on").textContent);
+};
+
+$("#qf").oninput = () => {
+    drawFx($("#fxChips .on").textContent);
+};
