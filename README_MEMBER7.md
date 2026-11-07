@@ -1,5 +1,5 @@
 # Member 7: Results, Standings and Reports
-Name - R.D.T.P SAMARAWIJAYA
+Name - SAMARAWIJAYA R.D.T.P
 S-ID - 41820
 
 ## Your files
