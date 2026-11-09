@@ -7,7 +7,8 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Source+Sans+3:wght@400;600&family=Merriweather:wght@700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="../../css/clubs.css">
+    <link rel="icon" href="../images/nsbm-logo.png">
+    <link rel="stylesheet" href="../css/style.css">
     <style>
         .club-detail-hero {
             background: linear-gradient(110deg, rgba(10, 51, 38, .94), rgba(10, 51, 38, .76)), url("../images/clubs/table-tennis.jpg") center/cover;
@@ -87,12 +88,15 @@
     </div>
     <header>
         <div class="bar">
-            <a class="logo" href="../index.html#home"><span>NSBM Green University</span><b>SportsHub</b></a>
-            <nav><a href="../index.html#home">Home</a><a class="on" href="../index.html#clubs">Clubs</a><a
-                    href="../index.html#fixtures">Fixtures</a><a href="../index.html#results">Results</a><a
-                    href="../index.html#booking">Book</a><a href="../index.html#me">My activity</a></nav>
-            <a class="btn alt sm" href="../index.html#login">Log in</a><a class="btn sm" href="../index.html#login">Sign
-                up</a>
+            <a class="logo" href="../index.html#home" aria-label="NSBM SportsHub home"><img class="logo-img"
+                    src="../images/nsbm-logo.png" alt="NSBM Green University Town"><span
+                    class="logo-name">SportsHub</span></a>
+            <nav><a href="../index.html#home">Home</a><a href="../index.html#news">News</a><a class="on"
+                    href="../index.html#clubs">Clubs</a><a href="../index.html#fixtures">Fixtures</a><a
+                    href="../index.html#results">Results</a><a href="../index.html#booking">Book</a><a
+                    href="../index.html#me">My activity</a></nav>
+            <span id="authBox" style="display:contents"><a class="btn alt sm" href="../index.html#login">Log in</a><a
+                    class="btn sm" href="../index.html#signup">Sign up</a></span>
         </div>
     </header>
     <main>
@@ -128,6 +132,7 @@
                 inquiries@nsbm.ac.lk</span><span>Student project prototype for the Faculty of Computing. Not the
                 official NSBM website.</span></div>
     </footer>
+    <script src="../js/club-shell.js"></script>
 </body>
 
 </html>
