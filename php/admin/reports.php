@@ -2,7 +2,7 @@
 require_once '../config.php'; need_admin();
 $page = 'reports';
 $rows = q('SELECT c.name, COUNT(DISTINCT r.id) regs, COALESCE(SUM(a.present),0) attended FROM clubs c LEFT JOIN events e ON e.club_id=c.id LEFT JOIN registrations r ON r.event_id=e.id LEFT JOIN attendance a ON a.event_id=r.event_id AND a.user_id=r.user_id GROUP BY c.id, c.name ORDER BY regs DESC')->fetchAll();
-if (isset($_GET['csv'])) {   // real CSV download
+if (isset($_GET['csv'])) {
     header('Content-Type: text/csv'); header('Content-Disposition: attachment; filename="participation-report.csv"');
     $o = fopen('php://output', 'w'); fputcsv($o, ['Club', 'Registrations', 'Attended']);
     foreach ($rows as $r) fputcsv($o, [$r['name'], $r['regs'], $r['attended']]);
