@@ -2,7 +2,7 @@
 require_once 'config.php';
 $page = 'results'; $title = 'Results';
 $res = q('SELECT r.*, e.title, e.event_date FROM results r JOIN events e ON e.id=r.event_id ORDER BY e.event_date DESC, r.id DESC')->fetchAll();
-$t = [];   // standings worked out from all recorded results (win = 3 points, draw = 1)
+$t = [];
 foreach ($res as $r) foreach ([[$r['home_team'], $r['home_score'], $r['away_score']], [$r['away_team'], $r['away_score'], $r['home_score']]] as [$n, $f, $a]) {
     $t[$n] ??= ['p' => 0, 'w' => 0, 'd' => 0, 'l' => 0, 'pts' => 0]; $t[$n]['p']++;
     if ($f > $a) { $t[$n]['w']++; $t[$n]['pts'] += 3; } elseif ($f == $a) { $t[$n]['d']++; $t[$n]['pts']++; } else $t[$n]['l']++;
