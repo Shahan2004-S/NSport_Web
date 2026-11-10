@@ -1,6 +1,6 @@
 # Member 7: Results, Standings and Reports
 Name - SAMARAWIJAYA R.D.P
-S.Name - 41820
+S.ID - 41820
 
 ## Your files
 - php/results.php
