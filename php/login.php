@@ -14,11 +14,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 require 'includes/header.php';
 ?>
-<h2>Log in</h2><p class="sub">Use the email you signed up with.</p>
-<?php if ($err) echo '<p class="err">'.e($err).'</p>'; ?>
+<?php $authMode = 'student'; require 'includes/auth_top.php'; ?>
+<h2>Student log in</h2><p class="sub">Welcome back! Use the email you signed up with.</p>
+<?php if ($err) echo '<p class="err" role="alert">'.e($err).'</p>'; ?>
 <form class="f" method="post"><?= csrf() ?>
-<label>University email<input type="email" name="email" required></label>
-<label>Password<input type="password" name="password" required></label>
+<label>University email<input type="email" name="email" value="<?= e($_POST['email'] ?? '') ?>" autocomplete="username" required></label>
+<label>Password<input type="password" name="password" autocomplete="current-password" required></label>
 <button class="btn" type="submit">Log in</button>
-<small>No account? <a href="<?= BASE ?>/register.php">Sign up</a> · Sports office? <a href="<?= BASE ?>/admin/login.php">Admin login</a></small></form>
-<?php require 'includes/footer.php'; ?>
+<p class="auth-alt">New to SportsHub? <a href="<?= BASE ?>/register.php">Create an account</a></p></form>
+<?php require 'includes/auth_bottom.php'; require 'includes/footer.php'; ?>
