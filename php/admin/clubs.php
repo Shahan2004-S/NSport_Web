@@ -7,7 +7,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = (int)($_POST['id'] ?? 0); $n = trim($_POST['name']); $sp = trim($_POST['sport']); $d = trim($_POST['description']); $u = trim($_POST['page_url']);
     if (!$n || !$sp) { flash('Name and sport are required.'); go('admin/clubs.php'); }
     $img = $id ? q('SELECT image FROM clubs WHERE id=?', [$id])->fetchColumn() : null;
-    // ---- 📷 PHOTO UPLOAD: club photo is saved into images/clubs/ ----
     if (!empty($_FILES['image']['name']) && $_FILES['image']['error'] === 0) {
         $ext = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
         if (in_array($ext, ['jpg', 'jpeg', 'png', 'webp']) && $_FILES['image']['size'] <= 2097152 && @getimagesize($_FILES['image']['tmp_name'])) {
@@ -35,9 +34,6 @@ require '../includes/admin_header.php';
 <label>Sport<input name="sport" value="<?= e($edit['sport'] ?? '') ?>" required></label>
 <label>Official page link<input type="url" name="page_url" value="<?= e($edit['page_url'] ?? '') ?>"></label>
 <label>Description<textarea name="description" rows="3"><?= e($edit['description'] ?? '') ?></textarea></label>
-<!-- ################################################################ -->
-<!-- ##  📷 PHOTO #2 UPLOAD BUTTON: choose the club photo here      ## -->
-<!-- ################################################################ -->
 <label>Club photo (JPG, PNG or WebP, max 2 MB)<input type="file" name="image" accept="image/*"></label>
 <button class="btn" type="submit">Save club</button></form>
 <?php require '../includes/footer.php'; ?>
