@@ -1,0 +1,13 @@
+(function () {
+  var db = null;
+  try { db = JSON.parse(localStorage.getItem("sh_v3")); } catch (e) {}
+  try { var t = localStorage.getItem("th"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+  var u = db && db.session, box = document.getElementById("authBox");
+  if (!u || !box) return;
+  box.textContent = "";
+  var av = document.createElement("span"); av.className = "avatar"; av.title = u.name; av.textContent = (u.name.trim()[0] || "?").toUpperCase();
+  var out = document.createElement("button"); out.type = "button"; out.className = "btn alt sm"; out.textContent = "Log out";
+  out.onclick = function () { db.session = null; try { localStorage.setItem("sh_v3", JSON.stringify(db)); } catch (e) {} location.href = "../index.html#home"; };
+  box.appendChild(av); box.appendChild(out);
+  if (u.role === "admin") { var n = document.querySelector("nav"); if (n) { var a = document.createElement("a"); a.href = "../index.html#admin"; a.textContent = "Admin"; n.appendChild(a); } }
+})();
