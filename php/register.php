@@ -16,12 +16,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 require 'includes/header.php';
 ?>
-<h2>Create account</h2><p class="sub">New to SportsHub? Join in a minute.</p>
-<?php if ($err): ?><ul class="err"><?php foreach ($err as $x) echo '<li>'.e($x).'</li>'; ?></ul><?php endif; ?>
+<?php $authMode = 'student'; require 'includes/auth_top.php'; ?>
+<h2>Create student account</h2><p class="sub">New to SportsHub? Join in a minute.</p>
+<?php if ($err): ?><ul class="err" role="alert"><?php foreach ($err as $x) echo '<li>'.e($x).'</li>'; ?></ul><?php endif; ?>
 <form class="f" method="post"><?= csrf() ?>
-<label>Full name<input name="name" value="<?= e($_POST['name'] ?? '') ?>" required></label>
-<label>University email<input type="email" name="email" value="<?= e($_POST['email'] ?? '') ?>" required></label>
+<label>Full name<input name="name" value="<?= e($_POST['name'] ?? '') ?>" autocomplete="name" required></label>
+<label>University email<input type="email" name="email" value="<?= e($_POST['email'] ?? '') ?>" autocomplete="username" required></label>
 <label>Student ID (optional)<input name="student_id" value="<?= e($_POST['student_id'] ?? '') ?>"></label>
-<label>Password (8+ characters)<input type="password" name="password" required></label>
-<button class="btn" type="submit">Create account</button></form>
-<?php require 'includes/footer.php'; ?>
+<label>Password (8+ characters)<input type="password" name="password" autocomplete="new-password" required></label>
+<button class="btn" type="submit">Create account</button>
+<p class="auth-alt">Already have an account? <a href="<?= BASE ?>/login.php">Log in</a></p></form>
+<?php require 'includes/auth_bottom.php'; require 'includes/footer.php'; ?>
