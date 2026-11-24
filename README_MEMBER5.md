@@ -3,9 +3,10 @@
  S.ID - 42865
 
 ## Your files
-- php/admin/clubs.php
-- php/admin/memberships.php
-- php/admin/index.php
+- php/admin/online.php
+- php/admin/roster.php
+- php/admin/status.php
+- php/admin/users.php
 
 ## Database tables you work with
 clubs, memberships, users (dashboard also counts events, bookings, registrations)
